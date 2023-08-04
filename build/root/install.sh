@@ -122,7 +122,7 @@ locale-gen
 echo LANG="en_US.UTF-8" > '/etc/locale.conf'
 
 # create "abc" user with "911" UID
-useradd -m -u 911 -g 911 abc
+useradd -m -u 911 abc
 
 # add user "abc" to primary group "users" (will remove any other group membership)
 usermod -g users abc
