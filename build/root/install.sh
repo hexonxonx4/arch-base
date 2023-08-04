@@ -117,15 +117,28 @@ echo "[info] Install base group and additional packages..."
 pacman -S base awk sed grep gzip supervisor nano vi ldns moreutils net-tools dos2unix unzip unrar htop jq openssl-1.1 rsync --noconfirm
 
 echo "[info] set locale..."
-echo en_GB.UTF-8 UTF-8 > '/etc/locale.gen'
+echo en_US.UTF-8 UTF-8 > '/etc/locale.gen'
 locale-gen
-echo LANG="en_GB.UTF-8" > '/etc/locale.conf'
+echo LANG="en_US.UTF-8" > '/etc/locale.conf'
+
+# create "abc" user with "911" UID
+useradd -m -u 911 -g 911 abc
+
+# add user "abc" to primary group "users" (will remove any other group membership)
+usermod -g users abc
+
+# add user "abc" to secondary groups "nobody" and "abc" (will retain primary membership)
+usermod -a -G nobody,abc abc
 
 # add user "nobody" to primary group "users" (will remove any other group membership)
 usermod -g users nobody
 
 # add user "nobody" to secondary group "nobody" (will retain primary membership)
 usermod -a -G nobody nobody
+
+# setup env for user abc
+chown -R abc:users '/home/abc'
+chmod -R 775 '/home/abc'
 
 # setup env for user nobody
 mkdir -p '/home/nobody'
